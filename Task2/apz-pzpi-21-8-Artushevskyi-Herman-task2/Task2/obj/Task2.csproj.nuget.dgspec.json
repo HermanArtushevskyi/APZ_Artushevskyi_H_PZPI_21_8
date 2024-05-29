@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\germa\\Desktop\\GitHubReps\\apz-pzpi-21-8-artushevskyi-herman\\Task2\\Task2\\Task2.csproj": {}
+    "C:\\Users\\germa\\Desktop\\GitHubReps\\apz-pzpi-21-8-artushevskyi-herman\\Task2\\apz-pzpi-21-8-Artushevskyi-Herman-task2\\Task2\\Task2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\germa\\Desktop\\GitHubReps\\apz-pzpi-21-8-artushevskyi-herman\\Task2\\Task2\\Task2.csproj": {
+    "C:\\Users\\germa\\Desktop\\GitHubReps\\apz-pzpi-21-8-artushevskyi-herman\\Task2\\apz-pzpi-21-8-Artushevskyi-Herman-task2\\Task2\\Task2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\germa\\Desktop\\GitHubReps\\apz-pzpi-21-8-artushevskyi-herman\\Task2\\Task2\\Task2.csproj",
+        "projectUniqueName": "C:\\Users\\germa\\Desktop\\GitHubReps\\apz-pzpi-21-8-artushevskyi-herman\\Task2\\apz-pzpi-21-8-Artushevskyi-Herman-task2\\Task2\\Task2.csproj",
         "projectName": "Task2",
-        "projectPath": "C:\\Users\\germa\\Desktop\\GitHubReps\\apz-pzpi-21-8-artushevskyi-herman\\Task2\\Task2\\Task2.csproj",
+        "projectPath": "C:\\Users\\germa\\Desktop\\GitHubReps\\apz-pzpi-21-8-artushevskyi-herman\\Task2\\apz-pzpi-21-8-Artushevskyi-Herman-task2\\Task2\\Task2.csproj",
         "packagesPath": "C:\\Users\\germa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\germa\\Desktop\\GitHubReps\\apz-pzpi-21-8-artushevskyi-herman\\Task2\\Task2\\obj\\",
+        "outputPath": "C:\\Users\\germa\\Desktop\\GitHubReps\\apz-pzpi-21-8-artushevskyi-herman\\Task2\\apz-pzpi-21-8-Artushevskyi-Herman-task2\\Task2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\germa\\AppData\\Roaming\\NuGet\\NuGet.Config"

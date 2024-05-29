@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "R7bswVxmx9+yWo6OSURPCOtX6yjVZmXpHM56zGx27hglmIbGVKctFdgFyN0tCyiM9fk7pSBpINhXCS87qoSgJA==",
+  "dgSpecHash": "c4J66FAnAcO38xE02LvuEVhJH2OaIVvfH7ZegumU2M1ugfjknjWZVd8xb8aXBk/c5/Hgt3i1KZfUp0EaL1g9hA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\germa\\Desktop\\GitHubReps\\apz-pzpi-21-8-artushevskyi-herman\\Task2\\Task2\\Task2.csproj",
+  "projectFilePath": "C:\\Users\\germa\\Desktop\\GitHubReps\\apz-pzpi-21-8-artushevskyi-herman\\Task2\\apz-pzpi-21-8-Artushevskyi-Herman-task2\\Task2\\Task2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\germa\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\germa\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
