@@ -11,5 +11,5 @@ public interface IDronesRepo
     public void DeleteDrone(int droneId);
     public Drone GetDroneById(int droneId);
     public IEnumerable<Drone> GetAllDrones();
-    public Drone GetDroneBySerialNumber(string serialNumber);
+    public Drone? GetDroneBySerialNumber(string serialNumber);
 }

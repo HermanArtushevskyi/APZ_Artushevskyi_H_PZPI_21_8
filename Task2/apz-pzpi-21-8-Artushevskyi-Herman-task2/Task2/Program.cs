@@ -1,3 +1,4 @@
+using Task2.BackgroundServices;
 using Task2.Data;
 using Task2.Services;
 
@@ -13,7 +14,10 @@ builder.Services.AddScoped<IBalancesRepo, BalancesRepo>();
 builder.Services.AddScoped<IDroneStationRepo, DroneStationRepo>();
 builder.Services.AddScoped<IDronesRepo, DronesRepo>();
 builder.Services.AddScoped<IDroneModelsRepo, DroneModelsRepo>();
+builder.Services.AddScoped<IAccelerationRepo, AccelerationRepo>();
+builder.Services.AddScoped<MQTTData>();
 builder.Services.AddControllers();
+builder.Services.AddHostedService<DroneCheckService>();
 
 builder.SetupDatabase();
 

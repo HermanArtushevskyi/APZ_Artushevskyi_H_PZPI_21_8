@@ -15,4 +15,5 @@ public class ServiceDbContext : DbContext
     public DbSet<Drone> DronesSet { get; set; }
     public DbSet<Balance> BalancesSet { get; set; }
     public DbSet<DroneToStation> DronesToStationsSet { get; set; }
+    public DbSet<Acceleration> AccelerationsSet { get; set; }
 }

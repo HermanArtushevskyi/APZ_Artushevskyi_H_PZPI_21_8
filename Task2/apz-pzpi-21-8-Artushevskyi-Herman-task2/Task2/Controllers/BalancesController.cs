@@ -29,11 +29,13 @@ public class BalancesController : ServiceControllerBase
     
     [Route("add")]
     [HttpPost]
-    public ActionResult AddBalance(string token, int userId, float amount)
+    public ActionResult AddBalance(string token, string userLogin, float amount)
     {
         if (!IsAdmin(token)) return Unauthorized();
+
+        var user = _usersRepo.GetUserByLogin(userLogin);
         
-        _balancesRepo.AddBalance(userId, amount);
+        _balancesRepo.AddBalance(user.Id, amount);
         _balancesRepo.SaveChanges();
         
         return Ok();
@@ -67,5 +69,15 @@ public class BalancesController : ServiceControllerBase
         if (!IsAdmin(token)) return Unauthorized();
         
         return Ok(_balancesRepo.GetAllBalances());
+    }
+    
+    [Route("my")]
+    [HttpGet]
+    public ActionResult<float> GetMyBalance(string token)
+    {
+        int userId = _tokensRepo.GetUserIdByToken(token);
+        if (userId == -1) return Unauthorized();
+        
+        return Ok(_balancesRepo.GetBalance(userId));
     }
 }

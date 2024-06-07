@@ -5,8 +5,8 @@ namespace Task2.Controllers;
 
 public class ServiceControllerBase : ControllerBase
 {
-    private readonly IUsersRepo _usersRepo;
-    private readonly ITokensRepo _tokensRepo;
+    protected readonly IUsersRepo _usersRepo;
+    protected readonly ITokensRepo _tokensRepo;
     
     public ServiceControllerBase(IUsersRepo usersRepo, ITokensRepo tokensRepo)
     {

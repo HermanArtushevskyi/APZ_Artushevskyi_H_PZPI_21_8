@@ -21,6 +21,11 @@ public class DroneModelsRepo : IDroneModelsRepo
         return _context.DroneModelsSet.FirstOrDefault(droneModel => droneModel.Id == id);
     }
 
+    public DroneModel GetDroneModelByName(string name)
+    {
+        return _context.DroneModelsSet.FirstOrDefault(droneModel => droneModel.Name == name);
+    }
+
     public void CreateDroneModel(DroneModel droneModel)
     {
         if (droneModel == null) Results.StatusCode(400);

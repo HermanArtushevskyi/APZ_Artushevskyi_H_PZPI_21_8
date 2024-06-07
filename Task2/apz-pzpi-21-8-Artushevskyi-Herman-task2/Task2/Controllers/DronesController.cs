@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DefaultNamespace;
+using Microsoft.AspNetCore.Mvc;
 using Task2.Data;
 using Task2.DTO;
 using Task2.Models;
@@ -16,10 +17,11 @@ public class DronesController : ServiceControllerBase
     private readonly IUsersRepo _usersRepo;
     private readonly ITokensRepo _tokensRepo;
     private readonly IDroneModelsRepo _droneModelsRepo;
-    
+    private IAccelerationRepo _accelerationRepo;
+
     private const float MAX_DISTANCE = 500f;
     
-    public DronesController(IUsersRepo usersRepo, ITokensRepo tokensRepo, IDronesRepo dronesRepo, IDroneStationRepo droneStationRepo, IBalancesRepo balancesRepo, IStationsRepo stationsRepo, IDroneModelsRepo droneModelsRepo) : base(usersRepo, tokensRepo)
+    public DronesController(IUsersRepo usersRepo, ITokensRepo tokensRepo, IDronesRepo dronesRepo, IDroneStationRepo droneStationRepo, IBalancesRepo balancesRepo, IStationsRepo stationsRepo, IDroneModelsRepo droneModelsRepo, IAccelerationRepo accelerationRepo) : base(usersRepo, tokensRepo)
     {
         _usersRepo = usersRepo;
         _tokensRepo = tokensRepo;
@@ -28,6 +30,7 @@ public class DronesController : ServiceControllerBase
         _balancesRepo = balancesRepo;
         _stationsRepo = stationsRepo;
         _droneModelsRepo = droneModelsRepo;
+        _accelerationRepo = accelerationRepo;
     }
     
     [Route("all")]
@@ -128,18 +131,17 @@ public class DronesController : ServiceControllerBase
     
     [Route("model/all")]
     [HttpGet]
-    public ActionResult<IEnumerable<DroneModel>> GetAllDroneModels(string token)
+    public ActionResult<IEnumerable<DroneModel>> GetAllDroneModels()
     {
-        if (!IsAdmin(token)) return Unauthorized();
-        
         return Ok(_droneModelsRepo.GetAllDroneModels());
     }
     
     [Route("rent")]
     [HttpPost]
-    public ActionResult<string> RentDrone(string token, int modelId, double longitude, double latitude)
+    public ActionResult<string> RentDrone(string token, string modelName, double longitude, double latitude)
     {
         if (_tokensRepo.GetUserIdByToken(token) == -1) return Unauthorized();
+        int modelId = _droneModelsRepo.GetDroneModelByName(modelName).Id;
         DroneModel droneModel = _droneModelsRepo.GetDroneModelById(modelId);
         float balance = _balancesRepo.GetBalance(_tokensRepo.GetUserIdByToken(token));
         if (balance < droneModel.Price) return BadRequest();
@@ -149,9 +151,17 @@ public class DronesController : ServiceControllerBase
         stations = stations.Where(s => GetDistance(s.Longitude, s.Latitude, longitude, latitude) <= MAX_DISTANCE);
         
         if (!stations.Any()) return NoContent();
-        
-        IEnumerable<DroneToStation> droneToStations = _droneStationRepo.GetAllDroneToStations();
-        
+
+        IEnumerable<DroneToStation> droneToStations;
+        try
+        {
+            droneToStations = _droneStationRepo.GetAllDroneToStations();
+        }
+        catch
+        {
+            return BadRequest();
+        }
+
         droneToStations = droneToStations.Where(ds => stations.Any(s => s.Id == ds.StationId));
 
         Drone? drone = FindSuitableDrone(droneToStations, modelId);
@@ -168,6 +178,40 @@ public class DronesController : ServiceControllerBase
         _balancesRepo.SaveChanges();
         
         return Ok(drone.SerialNumber);
+    }
+    
+    [Route("makeAvailable")]
+    [HttpPost]
+    public ActionResult MakeDroneAvailable(string token, string serialNumber)
+    {
+        if (!IsAdmin(token)) return Unauthorized();
+        
+        Drone drone = _dronesRepo.GetDroneBySerialNumber(serialNumber);
+        if (drone == null) return NotFound();
+        
+        drone.StatusId = (int) DroneStatus.Status.Idle;
+        drone.CurrentUserId = -1;
+        
+        _dronesRepo.UpdateDrone(drone);
+        _dronesRepo.SaveChanges();
+        
+        return Ok();
+    }
+    
+    [Route("acceleration")]
+    [HttpGet]
+    public ActionResult<Acceleration> GetAccelerationData(string token, string serialNumber)
+    {
+        if (!IsAdmin(token) &&
+            _dronesRepo.GetDroneBySerialNumber(serialNumber).CurrentUserId != _tokensRepo.GetUserIdByToken(token))
+            return Unauthorized();
+        
+        Drone drone = _dronesRepo.GetDroneBySerialNumber(serialNumber);
+        if (drone == null) return NotFound();
+        
+        Acceleration acceleration = _accelerationRepo.GetAccelerationDataBySerialNumber(serialNumber);
+        
+        return Ok(acceleration);
     }
 
     private Drone? FindSuitableDrone(IEnumerable<DroneToStation> droneToStations, int modelId)

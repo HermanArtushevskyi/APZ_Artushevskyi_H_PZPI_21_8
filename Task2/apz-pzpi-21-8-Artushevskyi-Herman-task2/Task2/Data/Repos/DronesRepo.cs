@@ -47,8 +47,12 @@ public class DronesRepo : IDronesRepo
         return _context.DronesSet.ToList();
     }
 
-    public Drone GetDroneBySerialNumber(string serialNumber)
+    public Drone? GetDroneBySerialNumber(string serialNumber)
     {
-        return _context.DronesSet.FirstOrDefault(d => d.SerialNumber == serialNumber);
+        bool exist = _context.DronesSet.Any(d => d.SerialNumber == serialNumber);
+        
+        if (!exist) return null;
+        else
+            return _context.DronesSet.FirstOrDefault(d => d.SerialNumber == serialNumber);
     }
 }
